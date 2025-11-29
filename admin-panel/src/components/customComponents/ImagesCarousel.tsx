@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useRecordContext } from "react-admin";
-import { Accordion, AccordionDetails, AccordionSummary, Dialog, DialogContent, IconButton, Typography } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
-import Slider from "react-slick";
+import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
+
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const imgLink = "http://localhost:5000/static/";
+const imgLink = `${import.meta.env.VITE_API_URL}/static/`;
 
 export const ImagesCarousel = () => {
     const record = useRecordContext();

@@ -1,8 +1,6 @@
-
-import React from 'react';
 import { BooleanField, Datagrid, DateField, List, ReferenceField, TextField } from 'react-admin';
 
-const imgLink = 'http://localhost:5000/static/';
+// const imgLink = `${import.meta.env.VITE_API_URL}/static/`;
 
 export const ProductList = () => (
     <List>

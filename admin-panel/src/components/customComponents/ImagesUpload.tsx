@@ -8,8 +8,8 @@ interface ImageUploadProps {
     source?: string;
 }
 
-const imgLink = 'http://localhost:5000/static/';
-const API_URL = 'http://localhost:5000';
+const imgLink = `${import.meta.env.VITE_API_URL}/static/`;
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const ImagesUpload: React.FC<ImageUploadProps> = () => {
     const record = useRecordContext();
