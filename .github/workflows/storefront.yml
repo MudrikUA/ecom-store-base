@@ -51,15 +51,18 @@ jobs:
           username: ${{ github.actor }} 
           password: ${{ secrets.GITHUB_TOKEN }} 
 
+      - name: Set lowercase repository owner
+        run: echo "REPO_OWNER_LC=${{ lower(github.repository_owner) }}" >> $GITHUB_ENV
+
       - name: Build Docker image
-        run: docker build -t ghcr.io/${{ lower(github.repository) }}/storefront:latest ./storefront
+        run: docker build -t ghcr.io/${{ REPO_OWNER_LC }}/storefront:latest ./storefront
 
       - name: Push image to Registry
-        run: docker push ghcr.io/${{ lower(github.repository) }}/storefront:latest
+        run: docker push ghcr.io/${{ REPO_OWNER_LC }}/storefront:latest
 
   deploy:
     needs: build_image # Цей job почнеться ТІЛЬКИ після успішного завершення build_image
     runs-on: ubuntu-latest
     steps:
       - name: Deploy application
-        run: echo "Deploying ghcr.io/${{ lower(github.repository) }}/storefront:latest..."
+        run: echo "Deploying ghcr.io/${{ REPO_OWNER_LC }}/storefront:latest..."
