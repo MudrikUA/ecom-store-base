@@ -17,7 +17,8 @@ COPY package*.json ./
 RUN npm install --only=production
 # Копіюємо скомпільований код з першого етапу
 COPY --from=build /app/dist ./dist
-COPY --from=build /app/static ./dist/static
+#COPY --from=build /app/static ./dist/static
+RUN mkdir -p ./dist/static
 # Документуємо порт, який слухає NestJS додаток (зазвичай 3000)
 EXPOSE 3000
 # Команда запуску продакшену
