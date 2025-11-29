@@ -1,0 +1,17 @@
+name: Build & Deploy Backend
+
+on:
+  push:
+    paths:
+      - "nest-backend/**"
+      - ".github/workflows/backend.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t myregistry/backend ./nest-backend

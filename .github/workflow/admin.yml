@@ -1,0 +1,17 @@
+name: Build & Deploy Admin
+
+on:
+  push:
+    paths:
+      - "admin-panel/**"
+      - ".github/workflows/admin.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t myregistry/admin ./admin-panel
