@@ -8,6 +8,10 @@ on:
       - "admin-panel/**"
       - ".github/workflows/admin.yml"
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   # test_and_lint:
   #   runs-on: ubuntu-latest

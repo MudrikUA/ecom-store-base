@@ -7,6 +7,10 @@ on:
     paths:
       - "storefront/**"
       - ".github/workflows/storefront.yml"
+      
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   # test_and_lint:
