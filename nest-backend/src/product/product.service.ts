@@ -5,19 +5,23 @@ import { FilesService } from 'src/files/files.service';
 import { Brand } from 'src/brand/brand.model';
 import { Category } from 'src/category/category.model';
 import { PriceBook } from 'src/pricebook/pricebook.model';
-import { Op, Sequelize } from 'sequelize';
+import { Op } from 'sequelize';
 import { Stock } from 'src/stock/stock.model';
+import { CategoryService } from 'src/category/category.service';
 
 @Injectable()
 export class ProductService {
     constructor(@InjectModel(Product) private ProductRepo: typeof Product,
-        private fileService: FilesService) { }
+        private fileService: FilesService,
+        private categoryService: CategoryService) { }
 
     async createProduct(dto, images) {
         const imagesArray: string[] = [];
-        for (const image of images) {
-            const createdImage = await this.fileService.createFile(image);
-            imagesArray.push(createdImage);
+        if (images) {
+            for (const image of images) {
+                const createdImage = await this.fileService.createFile(image);
+                imagesArray.push(createdImage);
+            }
         }
         const product = await this.ProductRepo.create({ ...dto, images: imagesArray });
         return product;
@@ -139,29 +143,7 @@ export class ProductService {
     //     };
     // }
 
-    async getAllChildCategoryAliases(parentAlias: string): Promise<string[]> {
-        const aliases: string[] = [parentAlias];
-        
-        // Рекурсивна функція для знаходження всіх дочірніх категорій
-        async function getChildAliases(alias: string) {
-            const children = await this.CategoryRepo.findAll({
-                where: {
-                    parentId: {
-                        [Op.eq]: Sequelize.literal(`(SELECT id FROM categories WHERE alias = '${alias}')`)
-                    }
-                }
-            });
-            
-            for (const child of children) {
-                aliases.push(child.alias);
-                await getChildAliases(child.alias);
-            }
-        }
-        
-        await getChildAliases(parentAlias);
-        return aliases;
-    }
-    
+
     async getProductsByCategoryAlias(
         alias: string,
         page: number = 1,
@@ -174,29 +156,29 @@ export class ProductService {
     ) {
         const offset = (page - 1) * pageSize;
         const whereClause: any = {};
-    
+
         // Отримуємо всі аліаси категорій (включаючи дочірні)
-        const categoryAliases = await this.getAllChildCategoryAliases(alias);
-    
+        const categoryAliases = await this.categoryService.getAllChildCategoryAliases(alias);
+
         if (brand && brand.length > 0) {
             whereClause['$brand.id$'] = { [Op.ne]: null };
             whereClause['$brand.name$'] = { [Op.in]: brand };
         }
-    
+
         if (country && country.length > 0) {
             whereClause['$brand.id$'] = { [Op.ne]: null };
             whereClause['$brand.country$'] = { [Op.in]: country };
         }
-    
+
         const priceWhere: any = { currency };
-    
+
         if (minPrice !== undefined) {
             priceWhere.price = { [Op.gte]: minPrice };
         }
         if (maxPrice !== undefined) {
             priceWhere.price = { ...(priceWhere.price || {}), [Op.lte]: maxPrice };
         }
-    
+
         const { rows: products, count } = await this.ProductRepo.findAndCountAll({
             include: [
                 {
@@ -211,7 +193,7 @@ export class ProductService {
                 },
                 {
                     model: Category,
-                    where: { 
+                    where: {
                         alias: { [Op.in]: categoryAliases } // Змінено: тепер шукаємо по всім аліасам
                     }
                 },
@@ -221,7 +203,7 @@ export class ProductService {
             limit: pageSize,
             offset: offset,
         });
-    
+
         return {
             totalItems: count,
             totalPages: Math.ceil(count / pageSize),

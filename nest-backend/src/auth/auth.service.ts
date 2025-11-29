@@ -33,8 +33,7 @@ export class AuthService {
         if (candidate) {
             throw new HttpException('[ERR-1]: A user with this email already exists', HttpStatus.BAD_REQUEST);
         }
-        const hashPassword = await bcrypt.hash(userDto.password, 5);
-        const user = await this.userService.createUser({ ...userDto, password: hashPassword })
+        const user = await this.userService.createUser(userDto);
         const result = {
             token: await this.generateToken(user),
             user: await this.userService.getUserByEmail(userDto.email, false)
@@ -59,6 +58,6 @@ export class AuthService {
         if (roles.length !== 0 && !user?.roles.some(role => roles.includes(role.name))) {
             throw new UnauthorizedException({ message: '[ERR-3]: No rights' });
         }
-        throw new UnauthorizedException({ message: '[ERR-2]: Incorrect email or password' });
+        throw new UnauthorizedException({ message: '[ERR-2.1]: Incorrect email or password' });
     }
 }

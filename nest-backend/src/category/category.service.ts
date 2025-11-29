@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Category } from './category.model';
 import { InjectModel } from '@nestjs/sequelize';
-import { Op } from 'sequelize';
+import { Op, Sequelize } from 'sequelize';
 
 @Injectable()
 export class CategoryService {
@@ -100,6 +100,30 @@ export class CategoryService {
         });
 
         return { rows, count };
+    }
+
+    async getAllChildCategoryAliases(parentAlias: string): Promise<string[]> {
+        const aliases: string[] = [parentAlias];
+        const categoryRepo = this.categoryRepo;
+
+        // Рекурсивна функція для знаходження всіх дочірніх категорій
+        async function getChildAliases(alias: string) {
+            const children = await categoryRepo.findAll({
+                where: {
+                    parent_id: {
+                        [Op.eq]: Sequelize.literal(`(SELECT id FROM categories WHERE alias = '${alias}')`)
+                    }
+                }
+            });
+
+            for (const child of children) {
+                aliases.push(child.alias);
+                await getChildAliases(child.alias);
+            }
+        }
+
+        await getChildAliases(parentAlias);
+        return aliases;
     }
 
 }

@@ -4,13 +4,13 @@ import { PaymentMethod } from '../payment-method/payment-method.model';
 
 interface PaymentAttr {
   order_id: number;
-  customer_first_name: string;
-  customer_last_name: string;
-  customer_phone: string;
-  address: string;
-  city: string;
-  postal_code: string;
-  country: string;
+  // customer_first_name: string;
+  // customer_last_name: string;
+  // customer_phone: string;
+  // address: string;
+  // city: string;
+  // postal_code: string;
+  // country: string;
   payment_method_id: number;
   transaction_id: string;
   status: string;
@@ -26,26 +26,26 @@ export class Payment extends Model<Payment, PaymentAttr> {
   @Column({allowNull: false})
   order_id: number;
 
-  @Column({ type: DataType.STRING, allowNull: false })
-  customer_first_name: string;
+  // @Column({ type: DataType.STRING, allowNull: false })
+  // customer_first_name: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
-  customer_last_name: string;
+  // @Column({ type: DataType.STRING, allowNull: false })
+  // customer_last_name: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
-  customer_phone: string;
+  // @Column({ type: DataType.STRING, allowNull: false })
+  // customer_phone: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
-  address: string;
+  // @Column({ type: DataType.STRING, allowNull: false })
+  // address: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
-  city: string;
+  // @Column({ type: DataType.STRING, allowNull: false })
+  // city: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
-  postal_code: string;
+  // @Column({ type: DataType.STRING, allowNull: false })
+  // postal_code: string;
 
-  @Column({ type: DataType.STRING, allowNull: false })
-  country: string;
+  // @Column({ type: DataType.STRING, allowNull: false })
+  // country: string;
 
   @ForeignKey(() => PaymentMethod)
   @Column({allowNull: false})

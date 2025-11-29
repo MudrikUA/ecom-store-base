@@ -6,8 +6,9 @@ import * as express from 'express';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // console.log(`CORS Rule: ${process.env.CORS_RULE}`);
   app.enableCors({
-    origin: ['http://localhost:3001', 'http://localhost:3000', 'http://192.168.1.208:3000', 'http://192.168.1.208:3001'],
+    origin: [process.env.CORS_RULE?.split(',')],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });

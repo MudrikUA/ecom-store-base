@@ -16,7 +16,8 @@ export class UserService {
         private roleService: RoleService) { }
 
     async createUser(dto: CreateUserDto) {
-        const user = await this.userRepo.create(dto);
+        const hashPassword = await bcrypt.hash(dto.password, 5);
+        const user = await this.userRepo.create({ ...dto, password: hashPassword });
         const role = await this.roleService.getRoleByValue("USER")
         if (!role) {
             throw new HttpException('[ERR-9]: Role not found', HttpStatus.NOT_FOUND);

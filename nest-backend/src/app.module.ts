@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { ProductModule } from './product/product.module';
 import { BrandModule } from './brand/brand.module';
@@ -26,7 +26,6 @@ import { Product } from './product/product.model';
 import { Role } from './role/role.model';
 import { UserRole } from './role/user-role.model';
 import { ShippingMethod } from './shipping-method/shipping-method.model';
-import { ShippingStatus } from './shipping-method/shipping-status.model';
 import { Shipping } from './shipping/shipping.model';
 import { Stock } from './stock/stock.model';
 import { User } from './user/user.model';
@@ -39,9 +38,7 @@ import * as path from 'path';
   controllers: [AppController],
   providers: [AppService],
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: `.${process.env.NODE_ENV}.env`
-    }),
+    ConfigModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: path.resolve(__dirname, 'static'),
     }),
@@ -50,7 +47,7 @@ import * as path from 'path';
       host: process.env.POSTGRES_HOST,
       port: Number(process.env.POSTGRESS_PORT),
       username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRESS_PASSWORD,
+      password: `${process.env.POSTGRESS_PASSWORD}`,
       database: process.env.POSTGRES_DB,
       models: [Brand, Category, OrderItem, Order,
         Payment, PaymentMethod, PriceBook,
