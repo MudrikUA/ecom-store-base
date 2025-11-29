@@ -64,7 +64,7 @@ export default function PersonalData({ auth, updateUser }) {
 
     const updateProfileData = () => {
         axios
-            .put("http://localhost:5000/user/update", {
+            .put(`${process.env.REACT_APP_API_URL}/user/update`, {
                 id: auth.user.id,
                 email: formData.email,
                 password: formData.password,

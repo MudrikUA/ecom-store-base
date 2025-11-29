@@ -99,7 +99,7 @@ const styles = `
 const ProductCarousel = ({images}) => {
   const [nav1, setNav1] = useState(null);
   const [nav2, setNav2] = useState(null);
-  const staticImgPath = "http://localhost:5000/static/";
+  const staticImgPath = `${process.env.REACT_APP_API_URL}/static/`;
 
   // Налаштування для основного слайдера
   const mainSettings = {

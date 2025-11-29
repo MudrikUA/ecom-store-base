@@ -88,7 +88,7 @@ export default function Plp() {
     if (!isParamsLoad) { return }
     console.log("filterParams" + JSON.stringify(filterParams))
     axios
-      .get(`http://localhost:5000/product/categoryAlias/${categoryId}`, {
+      .get(`${process.env.REACT_APP_API_URL}/product/categoryAlias/${categoryId}`, {
         params: { currency: cart.currency, page: currentPage, pageSize: PAGE_SIZE, ...filterParams },
         paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
       })
@@ -116,7 +116,7 @@ export default function Plp() {
 
   function loadFilters() {
     axios
-      .get(`http://localhost:5000/product/categoryFilters/${categoryId}`, {
+      .get(`${process.env.REACT_APP_API_URL}/product/categoryFilters/${categoryId}`, {
         params: { currency: cart.currency },
         paramsSerializer: (params) => qs.stringify(params, { arrayFormat: "repeat" }),
       })

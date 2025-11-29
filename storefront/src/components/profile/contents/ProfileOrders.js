@@ -40,7 +40,7 @@ export default function ProfileOrders({ auth }) {
 
     useEffect(() => {
         axios
-            .get("http://localhost:5000/order/byUser", {
+            .get(`${process.env.REACT_APP_API_URL}/order/byUser`, {
                 headers: {
                     Authorization: 'Bearer ' + auth.token
                 }

@@ -4,7 +4,7 @@ import Rating from '@mui/material/Rating';
 
 
 export default function HomeProductsBigTile({ product }) {
-    const staticImgPath = "http://localhost:5000/static/";
+    const staticImgPath = `${process.env.REACT_APP_API_URL}/static/`;
 
     return <div className={styles.hot_deal_first_element}>
         <img className={styles.product_big_img} src={staticImgPath + `${product.images[0]}`}

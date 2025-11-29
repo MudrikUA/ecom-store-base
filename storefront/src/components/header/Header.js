@@ -47,17 +47,19 @@ export default function Header() {
     };
 
     useEffect(() => {
+        console.log('Fetching categories');
         axios
-            .get("http://localhost:5000/category/tree/root", {
+            .get(`${process.env.REACT_APP_API_URL}/category/tree/root`, {
                 headers: {
                     Authorization: 'Bearer ' + auth.token
                 },
             })
             .then((response) => {
                 setCategories(response.data.subcategories);
+                console.log('Categories fetched:', response.data);
             })
             .catch((error) => {
-
+                console.error('Error fetching categories:', error);
             });
     }, []);
 

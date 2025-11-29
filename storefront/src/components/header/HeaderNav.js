@@ -85,7 +85,7 @@ export default function HeaderNav({ categories }) {
         {isProductsNavShow ?
             <div className={`${styles.nav_drop_down_container} ${styles.nav_products}`} ref={navItemRef}>
                 <div className={`${styles.content_container} ${styles.content_auto_center} ${styles.nav_drop_down_items}`}>
-                    {categories.map((category) => {
+                    {categories?.map((category) => {
                         return <div key={category.id} className={styles.product_cat_tile}>
                             <img src={prodCatImg} alt="Category image" />
                             <Link to={`/category/${category.alias}`} className={styles.nav_tile_title} >{category.name}</Link>
@@ -103,7 +103,7 @@ export default function HeaderNav({ categories }) {
             isToursNavShow ?
                 <div className={`${styles.nav_drop_down_container} ${styles.nav_tours}`} ref={navItemRef}>
                     <div className={`${styles.content_container} ${styles.content_auto_center} ${styles.nav_drop_down_items}`}>
-                        {getTourCategories().map((tour) => {
+                        {getTourCategories()?.map((tour) => {
                             return <div key={tour.id} className={styles.tour_tile}>
                                 <img src={tourImg} alt="Category image" />
                                 <a className={styles.nav_tile_title} href="#" >{tour.name}</a>
@@ -120,7 +120,7 @@ export default function HeaderNav({ categories }) {
             isServiceNavShow ?
                 <div className={`${styles.nav_drop_down_container} ${styles.nav_services} ${styles.content_container}`} ref={navItemRef}>
                     <div className={`${styles.content_container} ${styles.content_auto_center} ${styles.nav_drop_down_items}`}>
-                        {getServicesCategories().map((service) => {
+                        {getServicesCategories()?.map((service) => {
                             return <div key={service.id} className={styles.service_tile}>
                                 <img src={serviceImg} alt="Category image" />
                                 <a className={styles.nav_tile_title} href="#" >{service.name}</a>

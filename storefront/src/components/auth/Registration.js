@@ -93,7 +93,7 @@ const Registration = () => {
         }
 
         axios
-            .post("http://localhost:5000/auth/registration", {
+            .post(`${process.env.REACT_APP_API_URL}/auth/registration`, {
                 email: formData.email,
                 password: formData.password,
                 first_name: formData.firstName,

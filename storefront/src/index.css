@@ -25,6 +25,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: Manrope;
+  background-color: #f1f4f9;
 }
 
 code {
@@ -40,5 +41,5 @@ p {
 .app {
   margin-right: auto;
   margin-left: auto;
-  max-width: 1440px;
+  /* max-width: 1440px; */
 }

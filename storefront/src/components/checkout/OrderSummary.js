@@ -1,7 +1,7 @@
 import style from "./OrderSummary.module.css"
 
 const OrderSummary = ({cart}) => {
-    const staticUrl = "http://localhost:5000/static/";
+    const staticUrl = `${process.env.REACT_APP_API_URL}/static/`;
 
     return (<div className={style.checkoutSumary}>
         <p className={style.checkoutSumaryTitle}>Order Summary</p>

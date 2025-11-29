@@ -13,7 +13,7 @@ import heartCheckedIcon from '../../assets/icons/heart-checked.svg';
 export default function ProductTile({ product, isShowActionBtns }) {
     const dispatch = useDispatch();
     const isInStore = useSelector((state) => selectIsProductInWishlist(state, product.id));
-    const staticImgPath = "http://localhost:5000/static/";
+    const staticImgPath = `${process.env.REACT_APP_API_URL}/static/`;
 
     const handleAddToCart = (event) => {
         event.preventDefault();

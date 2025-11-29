@@ -20,10 +20,10 @@ const Checkout = () => {
     const navigate = useNavigate();
     const [checkoutStep, setCheckoutStep] = useState('shipping')
 
-    const [firstName, setFirstName] = useState(auth.user.first_name);
-    const [lastName, setLastName] = useState(auth.user.last_name);
-    const [email, setEmail] = useState(auth.user.email);
-    const [phone, setPhone] = useState(auth.user.phone);
+    const [firstName, setFirstName] = useState(auth.user ? auth.user.first_name : '');
+    const [lastName, setLastName] = useState(auth.user ? auth.user.last_name : '');
+    const [email, setEmail] = useState(auth.user ? auth.user.email : '');
+    const [phone, setPhone] = useState(auth.user ? auth.user.phone : '');
 
     const [address, setAddress] = useState('');
     const [country, setCountry] = useState('');
@@ -55,7 +55,7 @@ const Checkout = () => {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:5000/payment-method/active`, {
+            .get(`${process.env.REACT_APP_API_URL}/payment-method/active`, {
                 headers: {
                     Authorization: 'Bearer ' + auth.token
                 }
@@ -70,7 +70,7 @@ const Checkout = () => {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:5000/shipping-method/active`, {
+            .get(`${process.env.REACT_APP_API_URL}/shipping-method/active`, {
                 headers: {
                     Authorization: 'Bearer ' + auth.token
                 }
@@ -121,7 +121,7 @@ const Checkout = () => {
 
     function placeOrder(order) {
         axios
-            .post(`http://localhost:5000/order`, order, {
+            .post(`${process.env.REACT_APP_API_URL}/order`, order, {
                 headers: {
                     Authorization: 'Bearer ' + auth.token
                 }
@@ -293,13 +293,13 @@ const Checkout = () => {
                         {shippingMethods.map((sm) => {
                             return <div className={styles.shippingMethod}>
                                 {/* <input className={styles.shippingMethodsRadio} required type="radio" id={sm.id} name="shippingMethod" value={sm.id} checked={shippingMethod === String(sm.id)} onChange={(e) => setShippingMethod(e.target.value)} /> */}
-                                <input className={styles.shippingMethodsRadio} 
-                                    required 
-                                    type="radio" 
-                                    id={sm.id} 
-                                    name="shippingMethod" 
-                                    value={sm.id} 
-                                    checked={shippingMethod?.id === sm.id} 
+                                <input className={styles.shippingMethodsRadio}
+                                    required
+                                    type="radio"
+                                    id={sm.id}
+                                    name="shippingMethod"
+                                    value={sm.id}
+                                    checked={shippingMethod?.id === sm.id}
                                     onChange={(e) => setShippingMethod(sm)} />
                                 <div>
                                 </div><label htmlFor={sm.id}>

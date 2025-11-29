@@ -12,7 +12,7 @@ const Wishlist = () => {
 
     useEffect(() => {
         if (wishlist.items) {
-            axios.post(`http://localhost:5000/product/byIds`, { ids: wishlist.items.filter((item) => item && !isNaN(item)) }).then((response) => {
+            axios.post(`${process.env.REACT_APP_API_URL}/product/byIds`, { ids: wishlist.items.filter((item) => item && !isNaN(item)) }).then((response) => {
                 const products = response.data.map((product) => {
                     const newItem = {
                         ...product,

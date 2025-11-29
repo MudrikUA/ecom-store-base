@@ -48,7 +48,7 @@ export default function ProductTile({ product, isCart }) {
     return <>
         <div className={styles.productTile}>
             {/* <Link to={`/product/${product.id}`}> */}
-            <img src={`http://localhost:5000/static/${product.images[0]}`} alt={product.title}
+            <img src={`${process.env.REACT_APP_API_URL}/static/${product.images[0]}`} alt={product.title}
                 height={100} width={120} className={styles.img} />
             <p className={styles.name}>{product.title}</p>
             <p className={styles.price}>${product.price}</p>

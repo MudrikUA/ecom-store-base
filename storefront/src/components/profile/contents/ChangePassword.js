@@ -55,7 +55,7 @@ export default function ChangePassword({auth}) {
 
     const changePassword = () => {
         axios
-            .put("http://localhost:5000/user/change-password", {
+            .put(`${process.env.REACT_APP_API_URL}/user/change-password`, {
                 id: auth.user.id,
                 oldPassword: formData.curPassword,
                 newPassword: formData.newPassword,

@@ -22,14 +22,10 @@ function App() {
 
   useEffect(() => {
     const checkToken = () => {
-      //console.log('check token')
       if (token) {
         try {
           const decoded = jwtDecode(token);
-          //console.log('check token exp',decoded.exp * 1000);
-          //console.log('check token now',Date.now());
           if (decoded.exp * 1000 < Date.now()) {
-            //console.log('check token expire',decoded.exp)
             dispatch(logout());
           }
         } catch (error) {

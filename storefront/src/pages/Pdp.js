@@ -16,7 +16,7 @@ export default function Pdp() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:5000/product/${productId}`)
+            .get(`${process.env.REACT_APP_API_URL}/product/${productId}`)
             .then((response) => {
                 const product = {
                     ...response.data,

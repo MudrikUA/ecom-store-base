@@ -9,7 +9,7 @@ export default function Product({ product }) {
     const [itemQuantity, setItemQuantity] = useState(1);
 
     return (product ? <ContentLayout><div>
-        <img src={`http://localhost:5000/static/${product.images[0]}`} alt={product.title} height={196} width={262} />
+        <img src={`${process.env.REACT_APP_API_URL}/static/${product.images[0]}`} alt={product.title} height={196} width={262} />
         <div>Name:{product.title}</div>
         <div>Short discription: {product.descriptionShort}</div>
         <div>Category: {product.category.name}</div>

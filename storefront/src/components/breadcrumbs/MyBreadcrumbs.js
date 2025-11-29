@@ -7,7 +7,6 @@ import Stack from '@mui/material/Stack';
 export default function MyBreadcrumbs({product, category}) {
   product = {};
   category= {};
-  const breadcrumbs = product ? getBreadcrumbsForProduct(product) : getBreadcrumbsForCategory(category);
 
   function getBreadcrumbsForProduct (product){
     return [
@@ -29,7 +28,7 @@ export default function MyBreadcrumbs({product, category}) {
     ];
   }
 
-  function getBreadcrumbsForProduct (category) {
+  function getBreadcrumbsForCategory (category) {
     return [
       <Link underline="hover" key="1" color="inherit" href="/">
         Home
@@ -47,6 +46,8 @@ export default function MyBreadcrumbs({product, category}) {
       // </Typography>,
     ];
   }
+
+  const breadcrumbs = product ? getBreadcrumbsForProduct(product) : getBreadcrumbsForCategory(category);
 
   return (
     <Stack spacing={2}>
