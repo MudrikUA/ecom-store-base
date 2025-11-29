@@ -2,19 +2,64 @@ name: Build & Deploy Storefront
 
 on:
   push:
+    branches:
+      - master
     paths:
       - "storefront/**"
       - ".github/workflows/storefront.yml"
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  # test_and_lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
+  #     # Етап 1: Встановлення залежностей (часто потрібно для лінтера і тестів)
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v4
+  #       with:
+  #         node-version: "20"
+  #         cache: "npm"
+  #         cache-dependency-path: "admin-panel/package-lock.json"
+
+  #     - name: Install dependencies
+  #       run: npm ci
+  #       working-directory: ./admin-panel
+  #     # Етап 2: Запуск лінтера (перевірка якості коду)
+  #     - name: Run Linter
+  #       run: npm run lint
+  #       working-directory: ./admin-panel
+  #     # Етап 3: Прогон тестів
+  #     - name: Run Tests
+  #       run: npm test
+  #       working-directory: ./admin-panel
+
+  build_image:
+  #  needs: test_and_lint 
+    runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          # Використовуємо ім'я акаунта та вбудований GITHUB_TOKEN
+          username: ${{ github.actor }} 
+          password: ${{ secrets.GITHUB_TOKEN }} 
 
       - name: Build Docker image
-        run: docker build -t myregistry/storefront ./storefront
+        run: docker build -t ghcr.io/${{ github.repository }}/storefront:latest ./storefront
 
-      - name: Push image
-        run: echo "push to your registry..."
+      - name: Push image to Registry
+        run: docker push ghcr.io/${{ github.repository }}/storefront:latest
+
+  deploy:
+    needs: build_image # Цей job почнеться ТІЛЬКИ після успішного завершення build_image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy application
+        run: echo "Deploying ghcr.io/${{ github.repository }}/storefront:latest..."
