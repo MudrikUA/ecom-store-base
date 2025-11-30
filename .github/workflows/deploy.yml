@@ -32,7 +32,9 @@ jobs:
             EOF
 
             echo "Логінимось до GHCR…"
-            echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+            printf "%s" "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io \
+              -u "${{ secrets.GHCR_USERNAME }}" \
+              --password-stdin
 
             echo "Оновлюємо образи…"
             docker compose pull
