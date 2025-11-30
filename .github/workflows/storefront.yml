@@ -7,7 +7,7 @@ on:
     paths:
       - "storefront/**"
       - ".github/workflows/storefront.yml"
-      
+
 permissions:
   contents: read
   packages: write
@@ -55,11 +55,20 @@ jobs:
           username: ${{ github.actor }} 
           password: ${{ secrets.GITHUB_TOKEN }} 
 
-      - name: Build Docker image
-        run: docker build -t ghcr.io/${{ secrets.REPO_LOWER_NAME }}/storefront:latest ./storefront
+      # - name: Build Docker image
+      #   run: docker build --build-arg REACT_APP_API_URL=${{ vars.BACKEND_URL }} -t ghcr.io/${{ secrets.REPO_LOWER_NAME }}/storefront:latest ./storefront 
 
-      - name: Push image to Registry
-        run: docker push ghcr.io/${{ secrets.REPO_LOWER_NAME }}/storefront:latest
+      # - name: Push image to Registry
+      #   run: docker push ghcr.io/${{ secrets.REPO_LOWER_NAME }}/storefront:latest
+
+      - name: Build and Push Storefront Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./storefront
+          push: true
+          tags: ghcr.io/${{ secrets.REPO_LOWER_NAME }}/storefront:latest
+          build-args: |
+            VITE_API_URL=${{ vars.BACKEND_URL }}
 
   deploy:
     needs: build_image # Цей job почнеться ТІЛЬКИ після успішного завершення build_image

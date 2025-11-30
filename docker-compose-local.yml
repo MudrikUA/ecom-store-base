@@ -1,40 +1,54 @@
 version: "3.9"
-
 services:
   storefront:
-    image: ghcr.io/mudrikua/ecom-store-base/storefront:latest
+    build:
+      context: ./storefront
+      args:
+        # Передаємо змінну на етап збирання Dockerfile
+        REACT_APP_API_URL: ${BACKEND_URL}
     container_name: storefront
     restart: always
     networks:
       - appnet
 
+
   admin:
-    image: ghcr.io/mudrikua/ecom-store-base/admin:latest
+    build:
+      context: ./admin-panel
+      args:
+        # Передаємо змінну на етап збирання Dockerfile
+        VITE_API_URL: ${BACKEND_URL}
     container_name: admin
     restart: always
     networks:
       - appnet
 
   backend:
-    image: ghcr.io/mudrikua/ecom-store-base/backend:latest
+    build: ./nest-backend
     container_name: backend
     restart: always
     environment:
       POSTGRES_HOST: db
-      POSTGRES_PORT: 5432
+      POSTGRESS_PORT: 5432
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRESS_PASSWORD: ${POSTGRES_PASSWORD}
       PRIVATE_KEY: ${PRIVATE_KEY}
       JWT_EXPIRATION_TIME: ${JWT_EXPIRATION_TIME}
       CORS_RULE: ${CORS_RULE}
+
     networks:
       - appnet
     depends_on:
       - db
+    command: >
+      sh -c "
+        npm run seed &&
+        npm run start:prod
+      "
     volumes:
       - static_data:/app/static
-
+  
   nginx:
     image: nginx:stable
     container_name: nginx-proxy

@@ -1,0 +1,40 @@
+name: Deploy 
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy application
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /path/to/your/project
+
+            echo "Створюємо .env файл…"
+
+            cat > .env <<EOF
+            POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+            POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_HOST=db
+            POSTGRES_PORT=5432
+
+            PRIVATE_KEY=${{ secrets.PRIVATE_KEY }}
+            JWT_EXPIRATION_TIME=${{ secrets.JWT_EXPIRATION_TIME }}
+            CORS_RULE=${{ secrets.CORS_RULE }}
+            EOF
+
+            echo "Логінимось до GHCR…"
+            echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+
+            echo "Оновлюємо образи…"
+            docker compose pull
+
+            echo "Перезапускаємо сервіси…"
+            docker compose up -d --remove-orphans
