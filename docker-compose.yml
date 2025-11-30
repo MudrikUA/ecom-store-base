@@ -9,7 +9,7 @@ services:
       - appnet
 
   admin:
-    image: ghcr.io/mudrikua/ecom-store-base/admin:latest
+    image: ghcr.io/mudrikua/ecom-store-base/admin-panel:latest
     container_name: admin
     restart: always
     networks:
