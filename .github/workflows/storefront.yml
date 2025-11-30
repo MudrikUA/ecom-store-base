@@ -69,10 +69,3 @@ jobs:
           tags: ghcr.io/${{ secrets.REPO_LOWER_NAME }}/storefront:latest
           build-args: |
             VITE_API_URL=${{ vars.BACKEND_URL }}
-
-  deploy:
-    needs: build_image # Цей job почнеться ТІЛЬКИ після успішного завершення build_image
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy application
-        run: echo "Deploying ghcr.io/${{ secrets.REPO_LOWER_NAME }}/storefront:latest..."
