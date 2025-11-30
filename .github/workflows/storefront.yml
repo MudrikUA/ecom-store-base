@@ -1,4 +1,4 @@
-name: Build & Deploy Storefront
+name: Build Storefront
 
 on:
   push:

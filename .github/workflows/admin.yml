@@ -1,4 +1,4 @@
-name: Build & Deploy Admin
+name: Build Admin
 
 on:
   push:

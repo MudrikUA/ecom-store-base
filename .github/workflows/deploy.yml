@@ -1,4 +1,4 @@
-name: Deploy 
+name: Deploy Project
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /path/to/your/project
+            cd /home/${{ secrets.SSH_USERNAME }}/wine-store
 
             echo "Створюємо .env файл…"
 
